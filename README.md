@@ -1,87 +1,69 @@
-# agenticThis project implements a governed multi-agent AI system designed to evaluate financial expense submissions in enterprise environments.
+Enterprise Agentic AI for Financial Compliance & Fraud Governance
+Overview
 
-The system combines retrieval-augmented reasoning, multi-agent orchestration, fraud risk scoring, self-evaluation, escalation logic, and immutable audit logging to simulate production-grade financial AI governance. Unlike standard RAG chatbots, this architecture emphasizes determinism, traceability, resilience, and structured decision-making.
+This project implements a governed multi-agent AI system designed to evaluate financial expense submissions within enterprise environments.
+The architecture combines retrieval-augmented reasoning, tool orchestration, fraud risk scoring, meta-evaluation, escalation logic, and immutable audit logging to simulate production-grade financial AI governance.Unlike standard RAG-based chat systems, this design prioritizes determinism, traceability, resilience, and structured decision-making aligned with real-world compliance requirements.
 
 Problem Statement
-
-Financial organizations face significant risk from:
-
+Financial organizations face operational and regulatory risk from:
 Misclassified expense submissions
-
 Fraudulent reimbursements
-
-Regulatory non-compliance
-
+Policy non-compliance
 Inconsistent manual review processes
+Traditional review workflows are reactive, difficult to scale, and challenging to audit.
 
-Traditional workflows are reactive and difficult to audit.
+This project introduces a governed agentic AI decision engine that:
+Grounds reasoning in retrieved policy documents
+Applies behavioral risk scoring
+Enforces structured escalation rules
+Logs every decision in an immutable audit trail
 
-This project introduces a governed agentic AI decision engine that evaluates expense submissions, grounds reasoning in policy documents, scores behavioral risk, enforces escalation rules, and logs every decision for compliance auditing.
-
+The objective is to simulate a production-ready compliance review system rather than a conversational AI prototype.
 System Architecture
-
 High-Level Flow:
-
 User Input
 → Planner Agent
 → Retrieval Agent (FAISS + Embeddings)
 → Compliance Reasoning Agent (LLM)
 → Self-Evaluator Agent
-→ Retry Loop (if reasoning quality is weak)
+→ Controlled Retry Loop
 → Fraud Risk Scoring Agent
 → Escalation Engine
 → Immutable Audit Logger
 
 Agent Responsibilities
-
 Planner Agent
-Determines which tools and actions should execute based on expense attributes.
+Determines which tools and reasoning steps are required based on expense attributes.
 
 Retrieval Agent
-Uses vector embeddings and FAISS to retrieve relevant financial policy clauses.
+Performs semantic search over embedded policy documents to provide grounded context.
 
 Compliance Reasoning Agent
-Generates structured compliance decisions grounded strictly in retrieved policies.
+Generates structured decisions strictly grounded in retrieved policy clauses.
 
 Self-Evaluator Agent
-Audits reasoning output for grounding, hallucination, and logical consistency. Can trigger retry.
+Audits reasoning for grounding, hallucination risk, and logical consistency. Can trigger bounded retry.
 
 Fraud Risk Agent
-Applies rule-based heuristics such as high-value thresholds, suspicious keywords, and behavioral flags.
+Applies deterministic heuristics such as high-value thresholds and suspicious keyword detection.
 
 Escalation Engine
 Escalates decisions when:
-
-Compliance decision is rejected
-
-Fraud risk is high
-
+Compliance outcome is rejected
+Fraud risk is elevated
 Confidence is low
-
-Grounding is weak
-
+Grounding is insufficient
 Audit Logger
-Appends structured decision trace to an immutable JSONL file for compliance auditing.
-
+Writes append-only structured JSON entries for regulatory traceability.
 Enterprise Governance Features
-
-Multi-agent orchestration
-
-Reflection-based retry loop
-
-Deterministic escalation logic
-
-Append-only structured audit logging
-
+Multi-agent orchestration with controlled execution
+Reflection-based retry loop with bounded limits
+Deterministic escalation enforcement
+Append-only audit logging (JSONL format)
 LLM timeout protection
-
 Safe fallback handling for malformed model output
-
-Retry limits to prevent infinite loops
-
-Structured JSON responses
-
-Failure-resilient logging
+Structured response schema for downstream systems
+Failure-resilient logging that never interrupts API execution
 
 Example API Response
 {
@@ -103,34 +85,22 @@ Example API Response
   "retry_count": 0,
   "escalated_for_review": true
 }
+
 Why This Is Not Just RAG
-
-This system goes beyond basic Retrieval-Augmented Generation by implementing:
-
-Planner-controlled orchestration
-
+This system extends beyond traditional Retrieval-Augmented Generation by incorporating:
+Planner-controlled tool orchestration
 Meta-evaluation of reasoning quality
-
-Autonomous retry correction
-
+Autonomous but bounded retry correction
 Fraud scoring layer
-
 Deterministic escalation logic
-
-Immutable audit trail
-
-It reflects production-oriented financial AI governance rather than a chatbot demonstration.
-
+Immutable audit trace
+The architecture reflects production-oriented financial AI governance rather than a chatbot demonstration.
 Technology Stack
-
 FastAPI (API layer)
-
 FAISS (Vector similarity search)
-
 SentenceTransformers (Embeddings)
-
 Ollama + Llama3 (Local LLM)
 
 Python
 
-Structured JSONL logging
+Structured JSONL audit logging
